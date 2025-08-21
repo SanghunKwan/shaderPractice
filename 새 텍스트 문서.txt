@@ -1,0 +1,78 @@
+using System.Collections.Generic;
+using System;
+
+public class Solution {
+    
+    public int solution(string[] friends, string[] gifts) 
+    {
+
+        int answer = 0;
+        //두 사람 중 선물을 많이 준 사람이 하나 받음.
+        //선물 수가 같으면(0 포함) 선물 지수가 큰 사람이 하나 받음.
+        //선물 지수도 같으면 연산 끝.
+        
+        //필요한 데이터 : 
+        //1. 각 사람 당 선물 지수.
+        //2. 각 사람의 선물 delta.
+        
+        //계산 방식
+        //1. 사람 사이의 선물 delta를 구한다.
+        //2. 선물 delta가 0이 아닐 때 양수이면 +1, 음수이면 -1.
+        //3. 선물 delta가 0이면 선물 지수를 비교하여 더 크면 +1, 작으면 -1.
+        
+        
+        Dictionary<string, Dictionary<string, int>> dicGive = new Dictionary<string,Dictionary<string, int>>();
+        Dictionary<string, Dictionary<string, int>> dicGet = new Dictionary<string,Dictionary<string, int>>();
+        
+        
+        foreach(string item in friends){
+            dicGive.Add(item,new Dictionary<string, int>());
+            dicGet.Add(item,new Dictionary<string, int>());
+            for (int i = 0;  i < friends.Length; i++){
+                if(friends[i] == item) continue;
+                
+                dicGive[item].Add(friends[i], 0);
+                dicGet[item].Add(friends[i], 0);
+            }
+            
+        }
+        
+        foreach(string item in gifts){
+            string[] itemSplit = item.Split(" ");
+            
+            dicGive[itemSplit[0]][itemSplit[1]]++;
+             dicGet[itemSplit[1]][itemSplit[0]]++;
+        }
+        
+        //선물 지수 : dicGive[이름].Count - dicGet[이름].Count;
+        
+   foreach(string Giver in dicGive.Keys)
+   {
+       int nextPresent = 0;
+        foreach(string Getter in dicGive[Giver].Keys)
+        {
+             Console.WriteLine(Giver+":"+Getter);
+            Console.WriteLine(dicGive[Giver][Getter]+":"+dicGet[Giver][Getter]);
+            if(dicGive[Giver][Getter] > 
+               dicGet[Giver][Getter] ||
+               (dicGive[Giver][Getter] ==
+               dicGet[Giver][Getter] &&
+               (dicGive[Giver].Count 
+                - dicGet[Giver].Count)
+                > (dicGive[Getter].Count 
+                - dicGet[Getter].Count)))
+               nextPresent++;
+        }
+               answer = Math.Max(nextPresent, answer);
+   } 
+      
+        
+        
+        
+        
+        
+        
+        
+        return answer;
+    }
+}
