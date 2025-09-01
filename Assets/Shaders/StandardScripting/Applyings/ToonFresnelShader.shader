@@ -62,8 +62,6 @@ Shader "Applying/ToonFresnelShader"
             NdotL = ceil(NdotL  * _LevelNumber) /_LevelNumber ;
             
             final.rgb = NdotL * s.Albedo * _LightColor0.rgb * atten * color;
-
-
             final.a = s.Alpha;
 
             return final;
